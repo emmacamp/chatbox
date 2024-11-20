@@ -4,6 +4,8 @@ import { cookies } from "next/headers";
 import { CredentialsClientBP } from "../types/botpress";
 import { Client } from "@botpress/client";
 import { NextRequest, NextResponse } from "next/server";
+import { PUBLIC_ROUTES } from "@/routes";
+import { redirect } from "next/navigation";
 
 interface Session {
   credentials: CredentialsClientBP;
@@ -168,6 +170,7 @@ export async function clearStoredCredentials(
   itemName: string = CREDENTIALS_COOKIE_NAME
 ): Promise<void> {
   try {
+    console.log("Clearing stored credentials", itemName);
     deleteCookie(itemName);
   } catch (error) {
     console.error(error);
@@ -191,4 +194,10 @@ export async function updateSession(request: NextRequest) {
   });
 
   return res;
+}
+
+export async function logout() {
+  const cookieStore = await cookies();
+  cookieStore.set(CREDENTIALS_COOKIE_NAME, "", { expires: new Date(0) });
+  redirect(PUBLIC_ROUTES.ROOT);
 }

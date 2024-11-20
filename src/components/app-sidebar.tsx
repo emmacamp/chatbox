@@ -9,6 +9,7 @@ import {
 import {
   Sidebar,
   SidebarContent,
+  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
@@ -19,7 +20,7 @@ import {
   SidebarMenuItem,
   SidebarRail,
 } from "@/components/ui/sidebar";
-import { CredentialsClientBP } from "@/types/botpress";
+import { CredentialsClientBP, UserBP } from "@/types/botpress";
 import { Client } from "@botpress/client";
 import { listConversations } from "@/services";
 import { toast } from "sonner";
@@ -39,6 +40,9 @@ import wsp from "@/components/whatsapp.svg";
 import Image from "next/image";
 import { VersionSwitcher } from "./version-switcher";
 import { Label } from "@radix-ui/react-label";
+import { Button } from "./ui";
+import { clearStoredCredentials } from "@/services/storage";
+import { LogoutButton } from "./logout-btn";
 
 // Conversation Interface
 export interface ConversationBP {
@@ -53,15 +57,15 @@ export interface ConversationBP {
 }
 
 // User Interface
-export interface UserBP {
-  id: string;
-  createdAt: string;
-  updatedAt: string;
-  tags: {
-    [key: string]: string;
-  };
-  name: string;
-}
+// export interface UserBP {
+//   id: string;
+//   createdAt: string;
+//   updatedAt: string;
+//   tags: {
+//     [key: string]: string;
+//   };
+//   name: string;
+// }
 
 export function AppSidebar({
   credentials,
@@ -321,6 +325,9 @@ export function AppSidebar({
           )
         )}
       </SidebarContent>
+      <SidebarFooter>
+        <LogoutButton />
+      </SidebarFooter>
       <SidebarRail />
     </Sidebar>
   );

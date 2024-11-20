@@ -35,6 +35,10 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
   matcher: ["/", "/login", "/management/:path*"],
+  unstable_allowDynamic: [
+    "/src/services/storage.ts",
+    "/node_modules/@botpress/client/dist/*",
+  ],
 };
 
 const updateHeadersInterceptor = (

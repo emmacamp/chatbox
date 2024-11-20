@@ -18,7 +18,6 @@ import {
 } from "@/components/ui/sidebar";
 import { AUTH_ROUTES } from "@/routes";
 import { getSession } from "@/services/storage";
-import { Client } from "@botpress/client";
 import { CredentialsClientBP } from "@/types/botpress";
 
 export const metadata: Metadata = {

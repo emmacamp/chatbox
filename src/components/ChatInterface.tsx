@@ -1,11 +1,8 @@
 "use server";
-import { Suspense } from "react";
-
 import { Message } from "@botpress/client";
 import MessageInput from "./MessageInput";
 import MessageList from "./MessageList";
 import { CredentialsClientBP } from "@/types/botpress";
-import { ChatLoadingSkeleton } from "./skeletons";
 
 interface ChatInterfaceProps {
   conversationId: string;
@@ -28,6 +25,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = async ({
         <MessageList
           conversationId={conversationId}
           credentials={credentials}
+          
         />
       </div>
 
@@ -36,7 +34,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = async ({
         <MessageInput
           credentials={credentials}
           conversationId={conversationId}
-          className="flex items-center space-x-4 w-full"
+          className="flex items-center space-x-4 w-full justify-center"
         />
       </div>
     </div>

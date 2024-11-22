@@ -8,6 +8,7 @@ import { toast } from "sonner";
 import { Button } from "./ui";
 import { groupBy } from "lodash";
 import DaySeparator from "./DaySeparator";
+import { ArrowDown, ArrowUp, LoaderIcon } from "lucide-react";
 
 interface MessageListProps {
   conversationId: string;
@@ -49,6 +50,9 @@ const MessageList: React.FC<MessageListProps> = ({
         scrollToBottom();
       } catch (error) {
         console.error("Error fetching messages:", error);
+        if (error.code === 429) {
+          return toast.error("Rate limit exceeded. Please try again later.");
+        }
       }
     };
 
@@ -72,8 +76,35 @@ const MessageList: React.FC<MessageListProps> = ({
     });
   }, [messages]);
 
+  async function loadOlderMessages() {
+    const client = new Client({
+      token: credentials.token,
+      workspaceId: credentials.workspaceId,
+      botId: credentials.botId,
+    });
+
+    try {
+      if (!nextMessagesToken || !credentials) {
+        return toast.error("No more messages to load");
+      }
+
+      const getMessages = await client.listMessages({
+        conversationId,
+        nextToken: nextMessagesToken,
+      });
+
+      setMessages((prevMessages) => [...getMessages.messages, ...prevMessages]);
+
+      setNextMessagesToken(getMessages.meta.nextToken || undefined);
+    } catch (error) {
+      console.log(JSON.stringify(error));
+
+      toast.error("Couldn't load older messages");
+    }
+  }
+
   return (
-    <div className={className}>
+    <div className={`${className} flex flex-col`}>
       {isDefinedAndHasItems(messages) ? (
         <>
           {!nextMessagesToken ? (
@@ -81,8 +112,14 @@ const MessageList: React.FC<MessageListProps> = ({
               Start of the conversation
             </div>
           ) : (
-            <Button variant={"outline"} className="w-full">
+            <Button
+              onClick={loadOlderMessages}
+              variant={"outline"}
+              className="mb-3 w-fit self-center"
+            >
+              <ArrowDown className="mr-2 h-4 w-4 animate-[bounce_2s_ease-in-out_infinite]" />
               Load more messages
+              <ArrowUp className="mr-2 h-4 w-4 animate-[bounce_2s_ease-in-out_infinite]" />
             </Button>
           )}
 

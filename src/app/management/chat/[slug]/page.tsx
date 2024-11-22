@@ -12,8 +12,7 @@ export default async function Page({
   const credentials = (await getSession())?.credentials as CredentialsClientBP;
 
   return (
-    <div className="h-screen">
-      {JSON.stringify({ conversationId })}
+    <div className="flex flex-col h-full">
       <ChatInterface
         conversationId={conversationId}
         credentials={credentials}

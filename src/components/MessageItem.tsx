@@ -15,13 +15,16 @@ const MessageItem: React.FC<MessageItemProps> = ({ message }) => {
       className={`flex mb-2 ${isUserMessage ? "justify-start" : "justify-end"}`}
     >
       <div
-        className={`max-w-xs p-3 rounded-lg ${
+        className={`max-w-xs flex flex-col p-3 rounded-lg ${
           isUserMessage
             ? "bg-gray-200 text-black"
             : "bg-primary text-primary-foreground"
         }`}
       >
-        {message.payload.text}
+        <span className="">{message.payload.text}</span>
+        <span className="text-sm text-gray-400 mt-1">
+          {new Date(message.createdAt).toLocaleTimeString()}
+        </span>
       </div>
     </div>
   );

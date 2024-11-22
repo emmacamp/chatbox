@@ -1,12 +1,17 @@
 "use client";
 import { useFormStatus } from "react-dom";
 import { Button } from "./ui";
+import { ArrowRight } from "lucide-react";
 
 export function SubmitButton() {
   const { pending } = useFormStatus();
 
   return (
-    <Button type="submit" disabled={pending}>
+    <Button
+      type="submit"
+      className="w-full flex items-center justify-center space-x-2"
+      disabled={pending}
+    >
       {pending ? (
         <>
           <svg
@@ -32,7 +37,10 @@ export function SubmitButton() {
           Saving...
         </>
       ) : (
-        "Sign In"
+        <>
+          <span>Sign in</span>
+          <ArrowRight className="h-4 w-4" />
+        </>
       )}
     </Button>
   );

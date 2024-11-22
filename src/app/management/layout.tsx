@@ -19,6 +19,7 @@ import {
 import { AUTH_ROUTES } from "@/routes";
 import { getSession } from "@/services/storage";
 import { CredentialsClientBP } from "@/types/botpress";
+import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Management | ChatBox",
@@ -44,8 +45,8 @@ export default async function ManagementLayout({
           <Breadcrumb>
             <BreadcrumbList>
               <BreadcrumbItem className="hidden md:block">
-                <BreadcrumbLink href={AUTH_ROUTES.MANAGEMENT.ROOT}>
-                  Management
+                <BreadcrumbLink asChild>
+                  <Link href={AUTH_ROUTES.MANAGEMENT.ROOT}>Management</Link>
                 </BreadcrumbLink>
               </BreadcrumbItem>
               <BreadcrumbSeparator className="hidden md:block" />

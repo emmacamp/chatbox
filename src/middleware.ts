@@ -18,6 +18,8 @@ export async function middleware(request: NextRequest) {
         new URL(AUTH_ROUTES.MANAGEMENT.ROOT, request.url)
       );
     }
+
+    // if ()
     return updateSession(request);
   } else {
     if (

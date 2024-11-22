@@ -231,3 +231,42 @@ export function TableSkeleton() {
     </div>
   );
 }
+
+export const ChatLoadingSkeleton = () => {
+  return (
+    <div className="flex flex-col h-full w-full bg-gray-50 p-4 space-y-4 overflow-y-auto">
+      {/* Mensaje del usuario a la derecha */}
+      <div className="flex justify-end space-x-2 ml-10">
+        <div className="bg-gray-200 animate-pulse w-48 h-12 rounded-lg rounded-tr-none"></div>
+        <div className="w-8 h-8 bg-gray-300 rounded-full animate-pulse"></div>
+      </div>
+
+      {/* Mensaje del asistente a la izquierda */}
+      <div className="flex space-x-2 mr-10">
+        <div className="w-8 h-8 bg-gray-300 rounded-full animate-pulse"></div>
+        <div className="bg-gray-200 animate-pulse w-64 h-16 rounded-lg rounded-tl-none"></div>
+      </div>
+
+      {/* Mensaje del usuario a la derecha (más corto) */}
+      <div className="flex justify-end space-x-2 ml-10">
+        <div className="bg-gray-200 animate-pulse w-32 h-10 rounded-lg rounded-tr-none"></div>
+        <div className="w-8 h-8 bg-gray-300 rounded-full animate-pulse"></div>
+      </div>
+
+      {/* Mensaje del asistente a la izquierda (más largo) */}
+      <div className="flex space-x-2 mr-10">
+        <div className="w-8 h-8 bg-gray-300 rounded-full animate-pulse"></div>
+        <div className="bg-gray-200 animate-pulse w-72 h-20 rounded-lg rounded-tl-none"></div>
+      </div>
+
+      {/* Mensaje actual en progreso */}
+      <div className="flex space-x-2 mr-10">
+        <div className="w-8 h-8 bg-gray-300 rounded-full animate-pulse"></div>
+        <div className="bg-gray-200 animate-pulse w-56 h-12 rounded-lg rounded-tl-none"></div>
+        <div className="self-center">
+          <div className="w-2 h-2 bg-gray-300 rounded-full animate-bounce"></div>
+        </div>
+      </div>
+    </div>
+  );
+};

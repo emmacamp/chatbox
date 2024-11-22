@@ -14,7 +14,9 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Input, Label } from "./ui";
+import { Button, Input, Label } from "./ui";
+
+import { ArrowRight, MessageCircle, Lock, User, Bot } from "lucide-react";
 
 export const LoginForm = () => {
   const ref = useRef<HTMLFormElement>(null);
@@ -65,60 +67,120 @@ export const LoginForm = () => {
       }
     } catch (error) {
       console.error(error);
-      toast.error(error || "Something went wrong, please try again.");
+      toast.error(error.message || "Something went wrong, please try again.");
     }
   };
 
   return (
-    <Card className="mx-auto max-w-sm">
-      <CardHeader>
-        <CardTitle className="text-2xl">Login</CardTitle>
-        <CardDescription>
-          Enter your email below to login to your account
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-        <form ref={ref} onSubmit={handleSubmit} className="grid gap-4">
-          <div className="grid gap-2">
-            <Label
-              htmlFor="url"
-              className="block text-sm font-medium text-gray-700 mb-1"
-            >
-              Bot URL
-            </Label>
-            <Input
-              type="text"
-              name="url"
-              id="url"
-              value={form.url}
-              onChange={(e) => setForm({ ...form, url: e.target.value })}
-              required
-              className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200 ease-in-out"
-              placeholder="https://app.botpress.cloud/workspaces/..."
-            />
+    <div className="min-h-screen bg-background flex items-center justify-center p-4">
+      <Card className="w-full max-w-md shadow-lg">
+        <CardHeader className="text-center">
+          <div className="flex justify-center mb-4">
+            <MessageCircle className="h-12 w-12 text-primary" />
           </div>
-          <div className="grid gap-2">
-            <Label
-              htmlFor="token"
-              className="block text-sm font-medium text-gray-700 mb-1"
-            >
-              API Token
-            </Label>
-            <Input
-              type="password"
-              name="token"
-              id="token"
-              value={form.token}
-              onChange={(e) => setForm({ ...form, token: e.target.value })}
-              required
-              className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200 ease-in-out"
-              placeholder="Enter your API token"
-            />
-          </div>
+          <CardTitle className="text-3xl font-bold text-foreground">
+            ChatBox
+          </CardTitle>
+          <p className="text-muted-foreground mt-2">Sign in to your account</p>
+        </CardHeader>
+        <CardContent>
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div className="grid gap-2">
+              <Label htmlFor="email" className="flex items-center">
+                <Bot className="mr-2 h-4 w-4 text-muted-foreground" />
+                Bot Workspace URL
+              </Label>
+              <Input
+                type="text"
+                name="url"
+                id="url"
+                value={form.url}
+                onChange={(e) => setForm({ ...form, url: e.target.value })}
+                required
+                placeholder="https://app.botpress.cloud/workspaces/..."
+                className="w-full"
+              />
+            </div>
 
-          <SubmitButton />
-        </form>
-      </CardContent>
-    </Card>
+            <div className="grid gap-2">
+              <Label htmlFor="password" className="flex items-center">
+                <Lock className="mr-2 h-4 w-4 text-muted-foreground" />
+                Workspace token
+              </Label>
+              <Input
+                type="password"
+                name="password"
+                id="password"
+                value={form.token}
+                onChange={(e) => setForm({ ...form, token: e.target.value })}
+                required
+                placeholder="*********"
+                className="w-full"
+              />
+            </div>
+
+            <SubmitButton />
+          </form>
+        </CardContent>
+      </Card>
+
+      {/* Fondo con formas abstractas */}
+      <div className="fixed top-0 right-0 -z-10 opacity-30">
+        <div className="w-96 h-96 bg-accent rounded-full filter blur-3xl"></div>
+      </div>
+      <div className="fixed bottom-0 left-0 -z-10 opacity-30">
+        <div className="w-96 h-96 bg-secondary rounded-full filter blur-3xl"></div>
+      </div>
+    </div>
   );
 };
+//  <Card className="mx-auto max-w-sm">
+//       <CardHeader>
+//         <CardTitle className="text-2xl">Login</CardTitle>
+//         <CardDescription>
+//           Enter your email below to login to your account
+//         </CardDescription>
+//       </CardHeader>
+//       <CardContent>
+//         <form ref={ref} onSubmit={handleSubmit} className="grid gap-4">
+//           <div className="grid gap-2">
+//             <Label
+//               htmlFor="url"
+//               className="block text-sm font-medium text-gray-700 mb-1"
+//             >
+//               Bot URL
+//             </Label>
+//             <Input
+//               type="text"
+//               name="url"
+//               id="url"
+//               value={form.url}
+//               onChange={(e) => setForm({ ...form, url: e.target.value })}
+//               required
+//               className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200 ease-in-out"
+//               placeholder="https://app.botpress.cloud/workspaces/..."
+//             />
+//           </div>
+//           <div className="grid gap-2">
+//             <Label
+//               htmlFor="token"
+//               className="block text-sm font-medium text-gray-700 mb-1"
+//             >
+//               API Token
+//             </Label>
+//             <Input
+//               type="password"
+//               name="token"
+//               id="token"
+//               value={form.token}
+//               onChange={(e) => setForm({ ...form, token: e.target.value })}
+//               required
+//               className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200 ease-in-out"
+//               placeholder="Enter your API token"
+//             />
+//           </div>
+
+//           <SubmitButton />
+//         </form>
+//       </CardContent>
+//     </Card>

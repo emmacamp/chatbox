@@ -82,10 +82,34 @@ export function AppSidebar({
       userPhone?: string;
     }[]
   >([]);
+  const [botInfo, setBotInfo] = useState<{ name: string; id: string } | null>(
+    null
+  );
 
   // Estados para el filtro y la búsqueda
   const [selectedIntegration, setSelectedIntegration] = useState<string>("all");
   const [searchQuery, setSearchQuery] = useState<string>("");
+
+  useEffect(() => {
+    if (credentials) {
+      const currentBotId = credentials.botId;
+      const getBotInfo = async () => {
+        try {
+          const client = new Client({
+            token: credentials.token,
+            workspaceId: credentials.workspaceId,
+            botId: credentials.botId,
+          });
+          const response = await client.getBot({ id: currentBotId });
+          setBotInfo(response.bot);
+        } catch (error) {
+          toast.error("Error getting bot info");
+          console.error("Error al obtener la información del bot:", error);
+        }
+      };
+      getBotInfo();
+    }
+  }, [credentials]);
 
   useEffect(() => {
     // Inicializar el cliente de Botpress
@@ -215,7 +239,11 @@ export function AppSidebar({
   return (
     <Sidebar {...props}>
       <SidebarHeader className="p-2">
-        <VersionSwitcher versions={["1"]} defaultVersion={"1"} />
+        <VersionSwitcher
+          botName={botInfo?.name}
+          versions={["pepe"]}
+          defaultVersion={"pepe"}
+        />
         {/* Componente de búsqueda y filtro */}
         <SidebarGroup className="py-0 flex flex-row border rounded-lg justify-between items-center">
           <SidebarGroupContent className="relative w-full focus-within:ring-1 focus-within:ring-inset focus-within:ring-gray-300">
@@ -309,7 +337,7 @@ export function AppSidebar({
                                 {/* Mostrar ID de conversación para otras integraciones */}
                                 {integration !== "whatsapp" && (
                                   <div className="font-bold">
-                                    {conversation.conversationId}
+                                    {conversation.conversationId.slice(0, 10)}
                                   </div>
                                 )}
                               </div>

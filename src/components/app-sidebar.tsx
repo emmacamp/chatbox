@@ -22,7 +22,7 @@ import {
 } from "@/components/ui/sidebar";
 import { CredentialsClientBP, UserBP } from "@/types/botpress";
 import { Client } from "@botpress/client";
-import { listConversations } from "@/services";
+import { listConversationsWithMessages } from "@/services";
 import { toast } from "sonner";
 import Link from "next/link";
 
@@ -34,14 +34,11 @@ import {
   SelectItem,
   SelectValue,
 } from "@/components/ui/select";
-import { Input } from "@/components/ui/input";
 
 import wsp from "@/components/whatsapp.svg";
 import Image from "next/image";
 import { VersionSwitcher } from "./version-switcher";
 import { Label } from "@radix-ui/react-label";
-import { Button } from "./ui";
-import { clearStoredCredentials } from "@/services/storage";
 import { LogoutButton } from "./logout-btn";
 
 // Conversation Interface
@@ -55,17 +52,6 @@ export interface ConversationBP {
     [key: string]: string;
   };
 }
-
-// User Interface
-// export interface UserBP {
-//   id: string;
-//   createdAt: string;
-//   updatedAt: string;
-//   tags: {
-//     [key: string]: string;
-//   };
-//   name: string;
-// }
 
 export function AppSidebar({
   credentials,
@@ -120,7 +106,7 @@ export function AppSidebar({
     });
 
     // Obtener las conversaciones
-    listConversations(client)
+    listConversationsWithMessages(client, undefined, true)
       .then((response) => {
         setConversations(response.conversations);
       })
@@ -337,7 +323,7 @@ export function AppSidebar({
                                 {/* Mostrar ID de conversación para otras integraciones */}
                                 {integration !== "whatsapp" && (
                                   <div className="font-bold">
-                                    {conversation.conversationId.slice(0, 10)}
+                                    {conversation.conversationId.slice(0, 13)}
                                   </div>
                                 )}
                               </div>

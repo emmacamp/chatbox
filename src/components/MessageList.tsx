@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import MessageItem from "./MessageItem";
 import { Client, Message } from "@botpress/client";
 import { isDefinedAndHasItems } from "@/lib/utils";
@@ -30,6 +30,7 @@ const MessageList: React.FC<MessageListProps> = ({
   // const messagesEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    console.log("Fetching messages");
     const fetchMessages = async () => {
       try {
         const client = new Client({
@@ -109,7 +110,7 @@ const MessageList: React.FC<MessageListProps> = ({
       {isDefinedAndHasItems(messages) ? (
         <>
           {!nextMessagesToken ? (
-            <div className="rounded-md p-2 m-3 text-slate-600 font-medium text-center italic">
+            <div className="rounded-md p-2 m-3 bg-primary text-primary-foreground w-fit self-center font-medium text-center italic">
               Start of the conversation
             </div>
           ) : (
@@ -136,8 +137,8 @@ const MessageList: React.FC<MessageListProps> = ({
           )}
         </>
       ) : (
-        <div className="rounded-md p-2 m-3 border-2 font-medium text-center">
-          Start of the conversation
+        <div className="w-full h-full flex items-center justify-center">
+          Empty conversation
         </div>
       )}
       <div ref={messagesEndRef} />

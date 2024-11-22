@@ -7,25 +7,27 @@ import { CredentialsClientBP } from "@/types/botpress";
 import { toast } from "sonner";
 import { Button } from "./ui";
 import { groupBy } from "lodash";
-import DaySeparator from "./DaySeparator";
-import { ArrowDown, ArrowUp, LoaderIcon } from "lucide-react";
+import DaySeparator from "./DaySeparator"; // Asegúrate de tener este componente
+import { ArrowDown, ArrowUp } from "lucide-react";
 
 interface MessageListProps {
   conversationId: string;
   credentials: CredentialsClientBP;
   className?: string;
+  messagesEndRef: React.RefObject<HTMLDivElement>;
 }
 
 const MessageList: React.FC<MessageListProps> = ({
   conversationId,
   credentials,
   className,
+  messagesEndRef,
 }) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [nextMessagesToken, setNextMessagesToken] = useState<
     string | undefined
   >(undefined);
-  const messagesEndRef = useRef<HTMLDivElement>(null);
+  // const messagesEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const fetchMessages = async () => {
@@ -37,7 +39,6 @@ const MessageList: React.FC<MessageListProps> = ({
         });
         const response = await client.listMessages({
           conversationId,
-          nextToken: nextMessagesToken,
         });
 
         setNextMessagesToken(response.meta.nextToken || undefined);
@@ -48,7 +49,7 @@ const MessageList: React.FC<MessageListProps> = ({
 
         setMessages(response.messages);
         scrollToBottom();
-      } catch (error) {
+      } catch (error: any) {
         console.error("Error fetching messages:", error);
         if (error.code === 429) {
           return toast.error("Rate limit exceeded. Please try again later.");
@@ -65,14 +66,14 @@ const MessageList: React.FC<MessageListProps> = ({
 
   // Ordenar y agrupar mensajes por día
   const sortedAndGroupedMessages = React.useMemo(() => {
-    const sortedMessages = messages.sort(
+    const sortedMessages = [...messages].sort(
       (a, b) =>
         new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
     );
 
     return groupBy(sortedMessages, (message) => {
       const date = new Date(message.createdAt);
-      return date.toISOString().split("T")[0]; // Agrupa por fecha
+      return date.toDateString(); // Agrupa por fecha legible
     });
   }, [messages]);
 
@@ -117,18 +118,18 @@ const MessageList: React.FC<MessageListProps> = ({
               variant={"outline"}
               className="mb-3 w-fit self-center"
             >
-              <ArrowDown className="mr-2 h-4 w-4 animate-[bounce_2s_ease-in-out_infinite]" />
+              <ArrowDown className="mr-2 h-4 w-4 animate-bounce" />
               Load more messages
-              <ArrowUp className="mr-2 h-4 w-4 animate-[bounce_2s_ease-in-out_infinite]" />
+              <ArrowUp className="ml-2 h-4 w-4 animate-bounce" />
             </Button>
           )}
 
           {Object.entries(sortedAndGroupedMessages).map(
             ([date, dayMessages]) => (
               <React.Fragment key={date}>
-                <DaySeparator date={new Date(date)} />
-                {dayMessages.map((message, index) => (
-                  <MessageItem message={message} key={`${date}-${index}`} />
+                <DaySeparator date={date} />
+                {dayMessages.map((message) => (
+                  <MessageItem message={message} key={message.id} />
                 ))}
               </React.Fragment>
             )

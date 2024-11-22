@@ -1,9 +1,10 @@
 import React from "react";
 import { format, isToday, isYesterday, isThisYear } from "date-fns";
 import { es } from "date-fns/locale";
+import { ArrowDown } from "lucide-react";
 
 interface DaySeparatorProps {
-  date: Date;
+  date: string;
 }
 
 const DaySeparator: React.FC<DaySeparatorProps> = ({ date }) => {
@@ -22,11 +23,12 @@ const DaySeparator: React.FC<DaySeparatorProps> = ({ date }) => {
 
   return (
     <div className="flex items-center justify-center my-4">
-      <div className="h-px bg-gray-300 flex-grow"></div>
-      <span className="mx-4 text-sm text-gray-500 font-medium">
+      {/* <div className="h-px bg-gray-300 flex-grow"></div> */}
+      <span className="mx-4 text-sm text-gray-500 font-medium bg-secondary rounded-full px-4 py-1 flex items-center">
         {renderDateText()}
+        <ArrowDown className="ml-2 h-4 w-4" />
       </span>
-      <div className="h-px bg-gray-300 flex-grow"></div>
+      {/* <div className="h-px bg-gray-300 flex-grow"></div> */}
     </div>
   );
 };

@@ -1,5 +1,5 @@
 import { logout } from "@/services/storage";
-import { LogOut, PowerIcon } from "lucide-react";
+import { LogOut } from "lucide-react";
 
 export const LogoutButton = () => {
   return (

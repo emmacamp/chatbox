@@ -45,8 +45,9 @@ export const config = {
   matcher: ["/", "/login", "/management/:path*"],
   unstable_allowDynamic: [
     "/src/services/storage.ts",
-    "/node_modules/@botpress/client/dist/*",
+    "/node_modules/@botpress/client/dist/index.mjs",
   ],
+  runtime: "nodejs",
 };
 
 const updateHeadersInterceptor = (

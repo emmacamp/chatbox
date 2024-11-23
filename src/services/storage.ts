@@ -2,7 +2,7 @@
 import { JWTPayload, SignJWT, jwtVerify } from "jose";
 import { cookies } from "next/headers";
 import { CredentialsClientBP } from "../types/botpress";
-import { Client } from "@botpress/client";
+import type { Client } from "@botpress/client";
 import { NextRequest, NextResponse } from "next/server";
 import { PUBLIC_ROUTES } from "@/routes";
 import { redirect } from "next/navigation";
@@ -60,22 +60,6 @@ const deleteCookie = async (name: string) => {
   const cookieStore = await cookies();
   cookieStore.delete(name);
 };
-
-export async function createClient(
-  token: string,
-  workspaceId: string,
-  botId: string
-): Promise<Client | null> {
-  try {
-    const client = new Client({ token, workspaceId, botId });
-
-    return client;
-  } catch (error) {
-    console.error(error);
-
-    return null;
-  }
-}
 
 export async function getSession(): Promise<Session | JWTPayload | null> {
   const session = (await getCookie(CREDENTIALS_COOKIE_NAME)) as string;

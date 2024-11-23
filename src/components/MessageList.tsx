@@ -1,14 +1,14 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import MessageItem from "./MessageItem";
-import { Client, Message } from "@botpress/client";
+import { Client } from "@botpress/client";
 import { isDefinedAndHasItems } from "@/lib/utils";
 import { CredentialsClientBP } from "@/types/botpress";
 import { toast } from "sonner";
 import { Button } from "./ui";
 import { groupBy } from "lodash";
 import DaySeparator from "./DaySeparator"; // Asegúrate de tener este componente
-import { ArrowDown, ArrowUp, Loader } from "lucide-react";
+import { ArrowDown, ArrowUp } from "lucide-react";
 import { ChatLoadingSkeleton } from "./skeletons";
 import { useMessages } from "@/store/MessagesContext";
 
@@ -26,11 +26,9 @@ const MessageList: React.FC<MessageListProps> = ({
   messagesEndRef,
 }) => {
   const { messages, setMessages } = useMessages();
-  // const [messages, setMessages] = useState<Message[]>([]);
   const [nextMessagesToken, setNextMessagesToken] = useState<
     string | undefined
   >(undefined);
-  // const messagesEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     scrollToBottom();
@@ -59,7 +57,7 @@ const MessageList: React.FC<MessageListProps> = ({
         scrollToBottom();
       } catch (error: any) {
         console.error("Error fetching messages:", error);
-        if (error.code === 429) {
+        if (error?.code == 429) {
           return toast.error("Rate limit exceeded. Please try again later.");
         }
       }

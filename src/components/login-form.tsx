@@ -1,25 +1,18 @@
 "use client";
 import { toast } from "sonner";
 import { SubmitButton } from "./submit-button";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { AUTH_ROUTES } from "@/routes";
 import { Client } from "@botpress/client";
 import { storeCredentials } from "@/services/storage";
 
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Button, Input, Label } from "./ui";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input, Label } from "./ui";
 
-import { ArrowRight, MessageCircle, Lock, User, Bot } from "lucide-react";
+import { MessageCircle, Lock, Bot } from "lucide-react";
 
 export const LoginForm = () => {
-  const ref = useRef<HTMLFormElement>(null);
   const router = useRouter();
 
   const [form, setForm] = useState({ url: "", token: "" });
@@ -67,7 +60,7 @@ export const LoginForm = () => {
       }
     } catch (error) {
       console.error(error);
-      toast.error(error.message || "Something went wrong, please try again.");
+      toast.error("Something went wrong, please try again.");
     }
   };
 

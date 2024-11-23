@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { TrendingUp, CalendarIcon } from "lucide-react";
+import { CalendarIcon } from "lucide-react";
 import {
   Area,
   AreaChart,
@@ -25,8 +25,11 @@ import {
   ChartContainer,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-import { Client, GetBotAnalyticsResponse } from "@botpress/client";
-import { CredentialsClientBP } from "@/types/botpress";
+import { Client } from "@botpress/client";
+import {
+  CredentialsClientBP,
+  GetBotAnalyticsResponseBP,
+} from "@/types/botpress";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import {
@@ -34,7 +37,6 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { Formatter } from "recharts/types/component/DefaultLegendContent";
 import {
   NameType,
   ValueType,
@@ -77,7 +79,7 @@ export default function DashboardPage({
     const client = new Client({ ...credentials });
 
     try {
-      const response: GetBotAnalyticsResponse = await client.getBotAnalytics({
+      const response: GetBotAnalyticsResponseBP = await client.getBotAnalytics({
         id: credentials.botId,
         startDate: dateRange.from.toISOString(),
         endDate: dateRange.to.toISOString(),

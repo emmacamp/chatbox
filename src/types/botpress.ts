@@ -30,18 +30,6 @@ export interface CredentialsClientBP {
   botId: string;
 }
 
-// {
-//     "id": "conv_01JCRCRJTD2CEQJ8V66CSRMBKQ",
-//     "createdAt": "2024-11-15T17:08:35.277Z",
-//     "updatedAt": "2024-11-15T18:09:06.598Z",
-//     "channel": "channel",
-//     "integration": "whatsapp",
-//     "tags": {
-//         "whatsapp:userPhone": "18298160824",
-//         "whatsapp:phoneNumberId": "495238420330533"
-//     }
-// }
-
 export interface ConversationBP {
   id: string;
   createdAt: string;
@@ -53,21 +41,6 @@ export interface ConversationBP {
   };
 }
 
-// Mensaje
-// {
-//     "id": "dc13aa15-31cf-43ee-9528-302882257a10",
-//     "createdAt": "2024-11-15T17:08:35.388Z",
-//     "conversationId": "conv_01JCRCRJTD2CEQJ8V66CSRMBKQ",
-//     "payload": {
-//         "text": "Buenas tardes"
-//     },
-//     "tags": {
-//         "whatsapp:id": "wamid.HBgLMTgyOTgxNjA4MjQVAgASGCA4MzA3MjE2MUMyODg3ODY1OTNFRDgxODUzMENEMjgwRAA="
-//     },
-//     "userId": "user_01JCRCRJWCFTB0ZBY49NKE9EMC",
-//     "type": "text",
-//     "direction": "incoming"
-// }
 export interface MessageBP {
   id: string;
   createdAt: string;
@@ -83,18 +56,6 @@ export interface MessageBP {
   direction: string;
 }
 
-// user
-// {
-//   "id": "user_01JC9HSF8ZBJTJR37WW3VCSRQ7",
-//   "createdAt": "2024-11-09T22:47:50.815Z",
-//   "updatedAt": "2024-11-09T22:47:50.815Z",
-//   "tags": {
-//     "whatsapp:userId": "18297721111",
-//     "whatsapp:name": "Emmanuel Popa"
-//   },
-//   "name": "Emmanuel Popa"
-// }
-
 export interface UserBP {
   id: string;
   createdAt: string;
@@ -103,4 +64,107 @@ export interface UserBP {
     [key: string]: string;
   };
   name: string;
+}
+
+export interface GetBotAnalyticsResponseBP {
+  records: {
+    /**
+     * ISO 8601 date string of the beginning (inclusive) of the period
+     */
+    startDateTimeUtc: string;
+    /**
+     * ISO 8601 date string of the end (exclusive) of the period
+     */
+    endDateTimeUtc: string;
+    returningUsers: number;
+    newUsers: number;
+    sessions: number;
+    /**
+     * Deprecated. Use `userMessages` instead.
+     */
+    messages: number;
+    userMessages: number;
+    botMessages: number;
+    events: number;
+    eventTypes: {
+      [k: string]: number;
+    };
+    customEvents: {
+      [k: string]: number;
+    };
+    llm: {
+      calls: number;
+      errors: number;
+      inputTokens: number;
+      outputTokens: number;
+      /**
+       * The time it took for the LLM to complete its response. Values are expressed in milliseconds
+       */
+      latency: {
+        mean: number;
+        sd: number;
+        min: number;
+        max: number;
+      };
+      /**
+       * LLM response generation speed expressed in output tokens per second.
+       */
+      tokensPerSecond: {
+        mean: number;
+        sd: number;
+        min: number;
+        max: number;
+      };
+      /**
+       * Values are expressed in U.S. dollars
+       */
+      cost: {
+        sum: number;
+        mean: number;
+        sd: number;
+        min: number;
+        max: number;
+      };
+    };
+  }[];
+}
+
+export interface CreateMessageRequestBodyBP {
+  /**
+   * Payload is the content type of the message. Accepted payload options: Text, Image, Choice, Dropdown, Card, Carousel, File, Audio, Video, Location
+   */
+  payload: {
+    [k: string]: any;
+  };
+  /**
+   * ID of the [User](#schema_user)
+   */
+  userId: string;
+  /**
+   * ID of the [Conversation](#schema_conversation)
+   */
+  conversationId: string;
+  /**
+   * Type of the [Message](#schema_message) represents the resource type that the message is related to
+   */
+  type: string;
+  /**
+   * Set of [Tags](/docs/developers/concepts/tags) that you can attach to a [Message](#schema_message). The set of [Tags](/docs/developers/concepts/tags) available on a [Message](#schema_message) is restricted by the list of [Tags](/docs/developers/concepts/tags) defined previously by the [Bot](#schema_bot). Individual keys can be unset by posting an empty value to them.
+   */
+  tags: {
+    [k: string]: string;
+  };
+  /**
+   * Schedule the Message to be sent at a specific time. Either dateTime or delay must be provided.
+   */
+  schedule?: {
+    /**
+     * When the [Message](#schema_message) will be sent, in the ISO 8601 format
+     */
+    dateTime?: string;
+    /**
+     * Delay in milliseconds before sending the [Message](#schema_message)
+     */
+    delay?: number;
+  };
 }

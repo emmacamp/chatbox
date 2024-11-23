@@ -2,8 +2,11 @@
 import React, { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Client, CreateMessageRequestBody } from "@botpress/client";
-import { CredentialsClientBP } from "@/types/botpress";
+import { Client } from "@botpress/client";
+import {
+  CreateMessageRequestBodyBP,
+  CredentialsClientBP,
+} from "@/types/botpress";
 import { Send } from "lucide-react";
 import { revalidateTagChat } from "@/lib/utils.server";
 import { useMessages } from "@/store/MessagesContext";
@@ -29,7 +32,7 @@ const MessageInput: React.FC<MessageInputProps> = ({
     if (inputValue.trim() === "") return;
 
     // Create the message payload
-    const newMessage: CreateMessageRequestBody = {
+    const newMessage: CreateMessageRequestBodyBP = {
       payload: { text: inputValue },
       userId: credentials.botId,
       conversationId,

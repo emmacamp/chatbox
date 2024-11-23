@@ -239,21 +239,6 @@ export function AppSidebar({
                       {convs.map((conversation) => (
                         <SidebarMenuItem key={conversation.conversationId}>
                           <SidebarMenuButton asChild className="p-2">
-                            {/* <Link
-                              className={${
-                                integration === "whatsapp" &&
-                                conversation.userPhone
-                                  ? "!py-0 !h-11"
-                                  : ""
-                              } }
-                              href={/management/chat/${
-                                conversation.conversationId
-                              }?integration=${integration}${
-                                conversation.userName
-                                  ? &userName=${conversation.userName}
-                                  : ""
-                              }}
-                            > */}
                             <Link
                               className={`${
                                 integration === "whatsapp" &&

@@ -25,23 +25,12 @@ import { Client } from "@botpress/client";
 import { listConversationsWithMessages } from "@/services";
 import { toast } from "sonner";
 import Link from "next/link";
-
-// Importamos los componentes Select e Input
-import {
-  Select,
-  SelectTrigger,
-  SelectContent,
-  SelectItem,
-  SelectValue,
-} from "@/components/ui/select";
-
 import wsp from "@/components/whatsapp.svg";
 import Image from "next/image";
 import { Label } from "@radix-ui/react-label";
 import { LogoutButton } from "./logout-btn";
 import { BotNameSidebar } from "./bot-name-sidebar";
 
-// Conversation Interface
 export interface ConversationBP {
   id: string;
   createdAt: string;
@@ -71,9 +60,6 @@ export function AppSidebar({
   const [botInfo, setBotInfo] = useState<{ name: string; id: string } | null>(
     null
   );
-
-  // Estados para el filtro y la búsqueda
-  const [selectedIntegration, setSelectedIntegration] = useState<string>("all");
   const [searchQuery, setSearchQuery] = useState<string>("");
 
   useEffect(() => {
@@ -98,14 +84,12 @@ export function AppSidebar({
   }, [credentials]);
 
   useEffect(() => {
-    // Inicializar el cliente de Botpress
     const client = new Client({
       token: credentials.token,
       workspaceId: credentials.workspaceId,
       botId: credentials.botId,
     });
 
-    // Obtener las conversaciones
     listConversationsWithMessages(client, undefined, true)
       .then((response) => {
         setConversations(response.conversations);
@@ -116,7 +100,6 @@ export function AppSidebar({
   }, [credentials]);
 
   useEffect(() => {
-    // Función para obtener datos del usuario para cada conversación
     const fetchConversationData = async () => {
       const client = new Client({
         token: credentials.token,
@@ -131,13 +114,11 @@ export function AppSidebar({
 
           if (conversation.integration === "whatsapp") {
             try {
-              // Obtener mensajes de la conversación
               const messagesResponse = await client.listMessages({
                 conversationId: conversation.id,
               });
               const messages = messagesResponse.messages;
 
-              // Encontrar el primer mensaje entrante para obtener el userId
               const incomingMessage = messages.find(
                 (message) => message.direction === "incoming"
               );
@@ -146,7 +127,6 @@ export function AppSidebar({
                 const userId = incomingMessage.userId;
 
                 try {
-                  // Obtener datos del usuario
                   const userResponse = await client.getUser({ id: userId });
                   const user = userResponse.user as UserBP;
 
@@ -180,29 +160,21 @@ export function AppSidebar({
     }
   }, [conversations, credentials]);
 
-  // Filtrar las conversaciones según la integración y la consulta de búsqueda
   const filteredConversations = conversationData.filter((conversation) => {
-    // Filtrar por integración
-    if (
-      selectedIntegration !== "all" &&
-      conversation.integration !== selectedIntegration
-    ) {
-      return false;
-    }
+    const query = searchQuery.toLowerCase().trim();
+    if (!query) return true;
 
-    // Filtrar por nombre o número si la integración es whatsapp
-    if (selectedIntegration === "whatsapp" && searchQuery.trim() !== "") {
-      const query = searchQuery.toLowerCase();
-      const userName = conversation.userName?.toLowerCase() || "";
-      const userPhone = conversation.userPhone?.toLowerCase() || "";
-      return userName.includes(query) || userPhone.includes(query);
-    }
+    const conversationId = conversation.conversationId.toLowerCase();
+    const userName = conversation.userName?.toLowerCase() || "";
+    const userPhone = conversation.userPhone?.toLowerCase() || "";
 
-    // Si no hay filtro de búsqueda o la integración no es whatsapp, mostrar todas
-    return true;
+    return (
+      conversationId.includes(query) ||
+      userName.includes(query) ||
+      userPhone.includes(query)
+    );
   });
 
-  // Agrupar las conversaciones filtradas por integración
   const conversationsByIntegration = filteredConversations.reduce<{
     [key: string]: {
       conversationId: string;
@@ -226,49 +198,23 @@ export function AppSidebar({
     <Sidebar {...props}>
       <SidebarHeader className="p-2">
         <BotNameSidebar botName={botInfo?.name} />
-        {/* Componente de búsqueda y filtro */}
-        <SidebarGroup className="py-0 flex flex-row border rounded-lg justify-between items-center">
-          <SidebarGroupContent className="relative w-full focus-within:ring-1 focus-within:ring-inset focus-within:ring-gray-300">
+        <SidebarGroup className="">
+          <SidebarGroupContent className="relative w-full">
             <Label htmlFor="search" className="sr-only">
-              Search
+              Search by name, phone, or conv_id
             </Label>
             <SidebarInput
               type="text"
-              placeholder="Search..."
+              placeholder="Name, phone or conv_id"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="flex-1 pl-8 border-0 bg-transparent focus:ring-0 ring-offset-0 focus:ring-offset-0 focus:outline-none"
+              className="pl-8"
             />
-
-            <Search className="pointer-events-none absolute left-2 top-1/2 size-4 -translate-y-1/2 select-none opacity-50" />
-          </SidebarGroupContent>
-          <SidebarGroupContent className="relative w-[80px]">
-            <Select
-              value={selectedIntegration}
-              onValueChange={(value) => setSelectedIntegration(value)}
-            >
-              <SelectTrigger className="w-[80px]  border-0 bg-transparent focus:ring-0 ring-offset-0 ">
-                <SelectValue placeholder="Select integration" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">🌎</SelectItem>
-                <SelectItem value="whatsapp">
-                  <Image
-                    alt="whatsapp"
-                    height={20}
-                    width={20}
-                    src={wsp}
-                    className="mr-2 h-4 w-4"
-                  />
-                </SelectItem>
-                {/* Puedes añadir más integraciones aquí */}
-              </SelectContent>
-            </Select>
+            <Search className="absolute left-2 top-1/2 size-4 -translate-y-1/2 pointer-events-none opacity-50" />
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarHeader>
       <SidebarContent className="gap-0">
-        {/* Renderizar las conversaciones agrupadas por integración */}
         {Object.entries(conversationsByIntegration).map(
           ([integration, convs]) => (
             <Collapsible
@@ -293,6 +239,21 @@ export function AppSidebar({
                       {convs.map((conversation) => (
                         <SidebarMenuItem key={conversation.conversationId}>
                           <SidebarMenuButton asChild className="p-2">
+                            {/* <Link
+                              className={${
+                                integration === "whatsapp" &&
+                                conversation.userPhone
+                                  ? "!py-0 !h-11"
+                                  : ""
+                              } }
+                              href={/management/chat/${
+                                conversation.conversationId
+                              }?integration=${integration}${
+                                conversation.userName
+                                  ? &userName=${conversation.userName}
+                                  : ""
+                              }}
+                            > */}
                             <Link
                               className={`${
                                 integration === "whatsapp" &&
@@ -308,23 +269,21 @@ export function AppSidebar({
                                   : ""
                               }`}
                             >
-                              {/* Mostrar nombre y número para WhatsApp */}
-                              <div className="">
-                                {integration === "whatsapp" && (
-                                  <div className="flex flex-col">
-                                    <div className="font-bold">
-                                      {conversation.userName || "Unknown"}
-                                    </div>
-                                    <div>{conversation.userPhone}</div>
-                                  </div>
-                                )}
-
-                                {/* Mostrar ID de conversación para otras integraciones */}
-                                {integration !== "whatsapp" && (
+                              <div>
+                                {conversation.userName && (
                                   <div className="font-bold">
-                                    {conversation.conversationId.slice(0, 13)}
+                                    {conversation.userName}
                                   </div>
                                 )}
+                                {conversation.userPhone && (
+                                  <div>{conversation.userPhone}</div>
+                                )}
+                                {!conversation.userName &&
+                                  !conversation.userPhone && (
+                                    <div className="font-bold">
+                                      {conversation.conversationId.slice(0, 13)}
+                                    </div>
+                                  )}
                               </div>
                             </Link>
                           </SidebarMenuButton>

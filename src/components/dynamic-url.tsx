@@ -29,15 +29,17 @@ export const DynamicUrl = () => {
           </BreadcrumbLink>
         </BreadcrumbItem>
         <BreadcrumbSeparator className="hidden md:block" />
-        <BreadcrumbItem>
-          <BreadcrumbPage>{location || "Dashboard"}</BreadcrumbPage>
+        <BreadcrumbItem className="hidden md:block text-muted-foreground">
+          <BreadcrumbPage className="text-inherit">
+            {location || "Dashboard"}
+          </BreadcrumbPage>
         </BreadcrumbItem>
         {userName || integration ? (
           <>
             <BreadcrumbSeparator className="hidden md:block" />
             <BreadcrumbItem>
               <BreadcrumbPage>
-                {userName || integration || "New"}{" "}
+                {userName || integration || "Conversation"}{" "}
               </BreadcrumbPage>
             </BreadcrumbItem>
           </>

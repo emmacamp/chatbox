@@ -2,7 +2,7 @@ import ChatInterface from "@/components/ChatInterface";
 import { getSession } from "@/services/storage";
 import { CredentialsClientBP } from "@/types/botpress";
 
-type Params = Promise<{ slug: string }>;
+type Params = Promise<{ conversationId: string }>;
 
 // export async function generateMetadata({ params }: { params: Params }) {
 //   const { slug } = await params;
@@ -14,8 +14,8 @@ export const metadata = {
 };
 
 export default async function Page({ params }: { params: Params }) {
-  const { slug: conversationId } = await params;
-
+  const { conversationId } = await params;
+  console.log({ conversationId });
   const credentials = (await getSession())?.credentials as CredentialsClientBP;
 
   return (

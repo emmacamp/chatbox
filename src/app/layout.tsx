@@ -5,6 +5,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 
 import "./globals.css";
 import { cn } from "@/lib/utils";
+import Head from "next/head";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -21,8 +22,16 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
   return (
     <html lang="en">
+      <Head>
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta
+          name="apple-mobile-web-app-status-bar-style"
+          content="black-translucent"
+        />
+      </Head>
       <body
         suppressHydrationWarning
         className={cn(

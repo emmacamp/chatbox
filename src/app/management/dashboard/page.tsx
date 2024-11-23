@@ -34,6 +34,11 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { Formatter } from "recharts/types/component/DefaultLegendContent";
+import {
+  NameType,
+  ValueType,
+} from "recharts/types/component/DefaultTooltipContent";
 
 const chartConfig = {
   messages: {
@@ -97,6 +102,9 @@ export default function DashboardPage({
   useEffect(() => {
     getBotAnalysis();
   }, [dateRange]);
+
+  const handleFormatter = (value: ValueType, name: NameType) =>
+    `${chartConfig[name as keyof typeof chartConfig]?.label}: ${value}`;
 
   return (
     <Card className="max-w-[600px]">
@@ -166,11 +174,7 @@ export default function DashboardPage({
               content={
                 <ChartTooltipContent
                   indicator="dashed"
-                  formatter={(value: any, name: string) =>
-                    `${
-                      chartConfig[name as keyof typeof chartConfig]?.label
-                    }: ${value}`
-                  }
+                  formatter={handleFormatter}
                 />
               }
             />

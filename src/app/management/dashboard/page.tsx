@@ -76,7 +76,11 @@ export default function DashboardPage({
   const getBotAnalysis = async () => {
     if (!dateRange.from || !dateRange.to) return;
 
-    const client = new Client({ ...credentials });
+    const client = new Client({
+      token: credentials.token,
+      botId: credentials.botId,
+      workspaceId: credentials.workspaceId,
+    });
 
     try {
       const response: GetBotAnalyticsResponseBP = await client.getBotAnalytics({

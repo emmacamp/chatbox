@@ -1,4 +1,4 @@
-import { Client } from "@botpress/client";
+import type { Client } from "@botpress/client";
 
 export interface TextPayloadBP {
   text: string;

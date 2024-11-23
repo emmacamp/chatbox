@@ -7,8 +7,6 @@ import { NextRequest, NextResponse } from "next/server";
 export async function middleware(request: NextRequest) {
   const session = (await getSession()) as CredentialsClientBP | null;
   const pathname = request.nextUrl.pathname;
-  const requestHeaders = new Headers(request.headers);
-  requestHeaders.set("x-url", request.url);
 
   if (session) {
     updateHeadersInterceptor(NextResponse.next(), session);
@@ -34,20 +32,11 @@ export async function middleware(request: NextRequest) {
     }
   }
 
-  return NextResponse.next({
-    request: {
-      headers: requestHeaders,
-    },
-  });
+  return NextResponse.next();
 }
 
 export const config = {
   matcher: ["/", "/login", "/management/:path*"],
-  unstable_allowDynamic: [
-    "/src/services/storage.ts",
-    "/node_modules/@botpress/client/dist/index.mjs",
-  ],
-  runtime: "nodejs",
 };
 
 const updateHeadersInterceptor = (

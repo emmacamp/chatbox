@@ -101,7 +101,7 @@ export default function DashboardPage({
 
       setChartData(formattedData);
     } catch (error) {
-      console.error("Error fetching bot analysis:", error);
+      console.error("Error fetching bot analitics:", error);
     }
   };
 

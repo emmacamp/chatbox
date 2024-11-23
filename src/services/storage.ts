@@ -64,11 +64,7 @@ export async function getSession(): Promise<Session | JWTPayload | null> {
   const session = (await getCookie(CREDENTIALS_COOKIE_NAME)) as string;
 
   if (!session) return null;
-  const parsed = await decrypt(session);
-  return {
-    ...parsed,
-    client: JSON.parse(parsed.client),
-  };
+  return await decrypt(session);
 }
 
 export async function extractAndDecryptCredentials(

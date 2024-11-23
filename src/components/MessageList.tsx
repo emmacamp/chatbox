@@ -8,7 +8,8 @@ import { toast } from "sonner";
 import { Button } from "./ui";
 import { groupBy } from "lodash";
 import DaySeparator from "./DaySeparator"; // Asegúrate de tener este componente
-import { ArrowDown, ArrowUp } from "lucide-react";
+import { ArrowDown, ArrowUp, Loader } from "lucide-react";
+import { ChatLoadingSkeleton } from "./skeletons";
 
 interface MessageListProps {
   conversationId: string;
@@ -106,7 +107,7 @@ const MessageList: React.FC<MessageListProps> = ({
   }
 
   return (
-    <div className={`${className} flex flex-col`}>
+    <div className={`${className} flex flex-col `}>
       {isDefinedAndHasItems(messages) ? (
         <>
           {!nextMessagesToken ? (
@@ -138,7 +139,7 @@ const MessageList: React.FC<MessageListProps> = ({
         </>
       ) : (
         <div className="w-full h-full flex items-center justify-center">
-          Empty conversation
+          <ChatLoadingSkeleton />
         </div>
       )}
       <div ref={messagesEndRef} />

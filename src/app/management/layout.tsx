@@ -1,29 +1,19 @@
 import type { Metadata } from "next";
 import { AppSidebar } from "@/components/app-sidebar";
 
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
-
 import { Separator } from "@/components/ui/separator";
 import {
   SidebarInset,
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
-import { AUTH_ROUTES } from "@/routes";
 import { getSession } from "@/services/storage";
 import { CredentialsClientBP } from "@/types/botpress";
-import Link from "next/link";
+import { DynamicUrl } from "@/components/dynamic-url";
 
 export const metadata: Metadata = {
   title: "Management | ChatBox",
-  description: "Aplicación para gestion de turnos en Compras y Contrataciones",
+  description: "Aplicación para gestion de conversaciones de AI Agents.",
 };
 
 export default async function ManagementLayout({
@@ -33,8 +23,6 @@ export default async function ManagementLayout({
 }>) {
   const credentials = (await getSession())?.credentials as CredentialsClientBP;
 
-  // console.log(client);
-
   return (
     <SidebarProvider>
       <AppSidebar credentials={credentials} />
@@ -42,19 +30,7 @@ export default async function ManagementLayout({
         <header className="flex sticky top-0 bg-background h-16 shrink-0 items-center gap-2 border-b px-4">
           <SidebarTrigger className="-ml-1" />
           <Separator orientation="vertical" className="mr-2 h-4" />
-          <Breadcrumb>
-            <BreadcrumbList>
-              <BreadcrumbItem className="hidden md:block">
-                <BreadcrumbLink asChild>
-                  <Link href={AUTH_ROUTES.MANAGEMENT.ROOT}>Management</Link>
-                </BreadcrumbLink>
-              </BreadcrumbItem>
-              <BreadcrumbSeparator className="hidden md:block" />
-              <BreadcrumbItem>
-                <BreadcrumbPage>Dashboard</BreadcrumbPage>
-              </BreadcrumbItem>
-            </BreadcrumbList>
-          </Breadcrumb>
+          <DynamicUrl />
         </header>
         <main
           className="container mx-auto flex-grow p-5 md:p-10 md:overflow-y-auto"

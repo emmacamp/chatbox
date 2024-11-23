@@ -37,9 +37,9 @@ import {
 
 import wsp from "@/components/whatsapp.svg";
 import Image from "next/image";
-import { VersionSwitcher } from "./version-switcher";
 import { Label } from "@radix-ui/react-label";
 import { LogoutButton } from "./logout-btn";
+import { BotNameSidebar } from "./bot-name-sidebar";
 
 // Conversation Interface
 export interface ConversationBP {
@@ -225,11 +225,7 @@ export function AppSidebar({
   return (
     <Sidebar {...props}>
       <SidebarHeader className="p-2">
-        <VersionSwitcher
-          botName={botInfo?.name}
-          versions={["pepe"]}
-          defaultVersion={"pepe"}
-        />
+        <BotNameSidebar botName={botInfo?.name} />
         {/* Componente de búsqueda y filtro */}
         <SidebarGroup className="py-0 flex flex-row border rounded-lg justify-between items-center">
           <SidebarGroupContent className="relative w-full focus-within:ring-1 focus-within:ring-inset focus-within:ring-gray-300">
@@ -295,10 +291,7 @@ export function AppSidebar({
                   <SidebarGroupContent>
                     <SidebarMenu>
                       {convs.map((conversation) => (
-                        <SidebarMenuItem
-                          key={conversation.conversationId}
-                          className=""
-                        >
+                        <SidebarMenuItem key={conversation.conversationId}>
                           <SidebarMenuButton asChild className="p-2">
                             <Link
                               className={`${
@@ -307,7 +300,13 @@ export function AppSidebar({
                                   ? "!py-0 !h-11"
                                   : ""
                               } `}
-                              href={`/management/chat/${conversation.conversationId}`}
+                              href={`/management/chat/${
+                                conversation.conversationId
+                              }?integration=${integration}${
+                                conversation.userName
+                                  ? `&userName=${conversation.userName}`
+                                  : ""
+                              }`}
                             >
                               {/* Mostrar nombre y número para WhatsApp */}
                               <div className="">

@@ -43,14 +43,11 @@ export const LoginForm = () => {
         throw new Error("Failed to create client, validate your credentials");
       }
 
-      const result = await storeCredentials(
-        {
-          token: form.token,
-          workspaceId,
-          botId,
-        },
-        JSON.stringify(client)
-      );
+      const result = await storeCredentials({
+        token: form.token,
+        workspaceId,
+        botId,
+      });
 
       if (result.success) {
         toast.success("Credentials stored successfully");

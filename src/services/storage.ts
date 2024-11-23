@@ -2,14 +2,13 @@
 import { JWTPayload, SignJWT, jwtVerify } from "jose";
 import { cookies } from "next/headers";
 import { CredentialsClientBP } from "../types/botpress";
-import type { Client } from "@botpress/client";
 import { NextRequest, NextResponse } from "next/server";
 import { PUBLIC_ROUTES } from "@/routes";
 import { redirect } from "next/navigation";
 
 interface Session {
   credentials: CredentialsClientBP;
-  client: Client;
+  client: any;
   expires: Date;
   iat: number;
   exp: number;
@@ -128,13 +127,12 @@ export async function extractAndDecryptCredentials(
 
 export async function storeCredentials(
   credentials: CredentialsClientBP,
-  client: string,
   itemName: string = CREDENTIALS_COOKIE_NAME
 ): Promise<{ success: boolean }> {
   const cookieStore = await cookies();
   try {
     const expires = new Date(Date.now() + 10 * 1000);
-    const session = await encrypt({ credentials, client, expires });
+    const session = await encrypt({ credentials, expires });
 
     cookieStore.set(itemName, session, { expires, httpOnly: true });
 

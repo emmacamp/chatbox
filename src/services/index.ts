@@ -1,4 +1,4 @@
-import { Client, Conversation, Message } from "@botpress/client";
+import type { Client, Conversation, Message } from "@botpress/client";
 
 export interface ConversationWithOptionalMessages extends Conversation {
   messages?: Message[];

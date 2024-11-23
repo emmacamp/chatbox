@@ -5,6 +5,7 @@ import MessageInput from "./MessageInput";
 import MessageList from "./MessageList";
 import { CredentialsClientBP } from "@/types/botpress";
 import { ChevronDown } from "lucide-react";
+import { MessagesProvider } from "@/store/MessagesContext";
 
 interface ChatInterfaceProps {
   conversationId: string;
@@ -44,39 +45,41 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
   };
 
   return (
-    <div className="flex flex-col h-[85vh] relative">
-      {/* Sección de mensajes */}
-      <div
-        className="flex-1 overflow-y-auto p-4 h-[100%]"
-        ref={messagesContainerRef}
-        onScroll={handleScroll}
-      >
-        <MessageList
-          conversationId={conversationId}
-          credentials={credentials}
-          messagesEndRef={messagesEndRef}
-        />
-      </div>
-
-      {/* Botón para volver al final */}
-      {showScrollToBottom && (
-        <button
-          onClick={scrollToBottom}
-          className="absolute bottom-24 left-4 p-2 bg-primary text-white rounded-full shadow-md"
+    <MessagesProvider>
+      <div className="flex flex-col h-[85vh] relative">
+        {/* Sección de mensajes */}
+        <div
+          className="flex-1 overflow-y-auto p-4 h-[100%]"
+          ref={messagesContainerRef}
+          onScroll={handleScroll}
         >
-          <ChevronDown className="h-6 w-6" />
-        </button>
-      )}
+          <MessageList
+            conversationId={conversationId}
+            credentials={credentials}
+            messagesEndRef={messagesEndRef}
+          />
+        </div>
 
-      {/* Sección de entrada de mensaje */}
-      <div className="p-4 border-t">
-        <MessageInput
-          credentials={credentials}
-          conversationId={conversationId}
-          className="flex items-center space-x-4 w-full justify-center"
-        />
+        {/* Botón para volver al final */}
+        {showScrollToBottom && (
+          <button
+            onClick={scrollToBottom}
+            className="absolute bottom-24 left-4 p-2 bg-primary text-white rounded-full shadow-md"
+          >
+            <ChevronDown className="h-6 w-6" />
+          </button>
+        )}
+
+        {/* Sección de entrada de mensaje */}
+        <div className="p-4 border-t">
+          <MessageInput
+            credentials={credentials}
+            conversationId={conversationId}
+            className="flex items-center space-x-4 w-full justify-center"
+          />
+        </div>
       </div>
-    </div>
+    </MessagesProvider>
   );
 };
 

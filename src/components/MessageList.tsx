@@ -10,6 +10,7 @@ import { groupBy } from "lodash";
 import DaySeparator from "./DaySeparator"; // Asegúrate de tener este componente
 import { ArrowDown, ArrowUp, Loader } from "lucide-react";
 import { ChatLoadingSkeleton } from "./skeletons";
+import { useMessages } from "@/store/MessagesContext";
 
 interface MessageListProps {
   conversationId: string;
@@ -24,11 +25,16 @@ const MessageList: React.FC<MessageListProps> = ({
   className,
   messagesEndRef,
 }) => {
-  const [messages, setMessages] = useState<Message[]>([]);
+  const { messages, setMessages } = useMessages();
+  // const [messages, setMessages] = useState<Message[]>([]);
   const [nextMessagesToken, setNextMessagesToken] = useState<
     string | undefined
   >(undefined);
   // const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
 
   useEffect(() => {
     console.log("Fetching messages");
@@ -60,7 +66,7 @@ const MessageList: React.FC<MessageListProps> = ({
     };
 
     fetchMessages();
-  }, [conversationId]);
+  }, [setMessages, credentials, conversationId]);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });

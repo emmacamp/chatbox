@@ -2,11 +2,11 @@
 import React, { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Client, CreateMessageRequestBody, Message } from "@botpress/client";
+import { Client, CreateMessageRequestBody } from "@botpress/client";
 import { CredentialsClientBP } from "@/types/botpress";
 import { Send } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { revalidatePathClient, revalidateTagChat } from "@/lib/utils.server";
+import { revalidateTagChat } from "@/lib/utils.server";
+import { useMessages } from "@/store/MessagesContext";
 interface MessageInputProps {
   conversationId: string;
   // addMessage: (message: Message) => void;
@@ -23,8 +23,7 @@ const MessageInput: React.FC<MessageInputProps> = ({
   className,
 }) => {
   const [inputValue, setInputValue] = useState("");
-
-  const router = useRouter();
+  const { addMessage } = useMessages();
 
   const handleSendMessage = async () => {
     if (inputValue.trim() === "") return;
@@ -46,15 +45,12 @@ const MessageInput: React.FC<MessageInputProps> = ({
       });
 
       // Send message to the API
-      // const response =
-      await client.createMessage(newMessage);
-      // const sentMessage = response.message;
-      // addMessage(sentMessage);
+      const response = await client.createMessage(newMessage);
 
-      // revalidateTagChat();
-      // revalidatePathClient("/management/chat");
+      addMessage(response.message);
+
+      revalidateTagChat();
       setInputValue("");
-      // scrollToBottom();
     } catch (error) {
       console.error("Error sending message:", error);
     }

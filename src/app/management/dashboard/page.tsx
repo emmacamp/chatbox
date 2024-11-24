@@ -116,8 +116,8 @@ export default function DashboardPage({
     <Card className="max-w-[600px]">
       <CardHeader className="flex flex-col md:flex-row items-center justify-between">
         <div className=" flex flex-col gap-1">
-          <CardTitle>About your bot</CardTitle>
-          <CardDescription>Daily performance</CardDescription>
+          <CardTitle>Información del Bot</CardTitle>
+          <CardDescription>Analíticas por fecha</CardDescription>
         </div>
         {/* Date Picker */}
         <div className="mb-4">
@@ -141,7 +141,7 @@ export default function DashboardPage({
                     format(dateRange.from, "LLL dd, y")
                   )
                 ) : (
-                  <span>Pick a date</span>
+                  <span>Seleccione una fecha</span>
                 )}
               </Button>
             </PopoverTrigger>
@@ -207,10 +207,12 @@ export default function DashboardPage({
       </CardContent>
       <CardFooter className="flex-col items-start gap-2 text-sm">
         <div className="flex gap-2 font-medium leading-none">
-          Keep track of your bot&apos;s performance
+          Mantenga el seguimiento de su bot
+          {/* Keep track of your bot&apos;s performance */}
         </div>
         <div className="leading-none text-muted-foreground">
-          Showing bot performance for the selected period
+          Mostrando el rendimiento de su bot para el per&iacute;odo seleccionado
+          {/* Showing bot performance for the selected period */}
         </div>
       </CardFooter>
     </Card>

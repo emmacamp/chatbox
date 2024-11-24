@@ -25,7 +25,7 @@ export const DynamicUrl = () => {
       <BreadcrumbList>
         <BreadcrumbItem className="hidden md:block">
           <BreadcrumbLink asChild>
-            <Link href={AUTH_ROUTES.MANAGEMENT.ROOT}>Management</Link>
+            <Link href={AUTH_ROUTES.MANAGEMENT.ROOT}>Home</Link>
           </BreadcrumbLink>
         </BreadcrumbItem>
         <BreadcrumbSeparator className="hidden md:block" />
@@ -39,7 +39,7 @@ export const DynamicUrl = () => {
             <BreadcrumbSeparator className="hidden md:block" />
             <BreadcrumbItem>
               <BreadcrumbPage>
-                {userName || integration || "Conversation"}{" "}
+                {userName || integration || "Conversación"}{" "}
               </BreadcrumbPage>
             </BreadcrumbItem>
           </>

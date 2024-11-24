@@ -50,7 +50,7 @@ export const LoginForm = () => {
       });
 
       if (result.success) {
-        toast.success("Credentials stored successfully");
+        // toast.success("Bienvenido!");
         router.push(AUTH_ROUTES.MANAGEMENT.ROOT);
       } else {
         throw new Error("Failed to store credentials");
@@ -71,7 +71,9 @@ export const LoginForm = () => {
           <CardTitle className="text-3xl font-bold text-foreground">
             ChatBox
           </CardTitle>
-          <p className="text-muted-foreground mt-2">Sign in to your account</p>
+          <p className="text-muted-foreground mt-2">
+            Inicia sesión para acceder a tu cuenta
+          </p>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-6">
@@ -95,7 +97,7 @@ export const LoginForm = () => {
             <div className="grid gap-2">
               <Label htmlFor="password" className="flex items-center">
                 <Lock className="mr-2 h-4 w-4 text-muted-foreground" />
-                Workspace token
+                Account Token
               </Label>
               <Input
                 type="password"
@@ -113,64 +115,6 @@ export const LoginForm = () => {
           </form>
         </CardContent>
       </Card>
-
-      {/* Fondo con formas abstractas */}
-      <div className="fixed top-0 right-0 -z-10 opacity-30">
-        <div className="w-96 h-96 bg-accent rounded-full filter blur-3xl"></div>
-      </div>
-      <div className="fixed bottom-0 left-0 -z-10 opacity-30">
-        <div className="w-96 h-96 bg-secondary rounded-full filter blur-3xl"></div>
-      </div>
     </div>
   );
 };
-//  <Card className="mx-auto max-w-sm">
-//       <CardHeader>
-//         <CardTitle className="text-2xl">Login</CardTitle>
-//         <CardDescription>
-//           Enter your email below to login to your account
-//         </CardDescription>
-//       </CardHeader>
-//       <CardContent>
-//         <form ref={ref} onSubmit={handleSubmit} className="grid gap-4">
-//           <div className="grid gap-2">
-//             <Label
-//               htmlFor="url"
-//               className="block text-sm font-medium text-gray-700 mb-1"
-//             >
-//               Bot URL
-//             </Label>
-//             <Input
-//               type="text"
-//               name="url"
-//               id="url"
-//               value={form.url}
-//               onChange={(e) => setForm({ ...form, url: e.target.value })}
-//               required
-//               className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200 ease-in-out"
-//               placeholder="https://app.botpress.cloud/workspaces/..."
-//             />
-//           </div>
-//           <div className="grid gap-2">
-//             <Label
-//               htmlFor="token"
-//               className="block text-sm font-medium text-gray-700 mb-1"
-//             >
-//               API Token
-//             </Label>
-//             <Input
-//               type="password"
-//               name="token"
-//               id="token"
-//               value={form.token}
-//               onChange={(e) => setForm({ ...form, token: e.target.value })}
-//               required
-//               className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200 ease-in-out"
-//               placeholder="Enter your API token"
-//             />
-//           </div>
-
-//           <SubmitButton />
-//         </form>
-//       </CardContent>
-//     </Card>

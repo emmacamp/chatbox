@@ -26,7 +26,7 @@ const HomePage = () => {
               variant: "default",
             })} flex items-center space-x-2`}
           >
-            <span>Sign in</span>
+            <span>Iniciar Sesión</span>
             <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
@@ -36,15 +36,15 @@ const HomePage = () => {
       <main className="container mx-auto px-6 pt-20 pb-12">
         <div className="text-center">
           <h1 className="text-5xl md:text-6xl font-bold text-foreground mb-6">
-            Manage your Chatbot&apos;s
-            <span className="text-primary"> Interactions</span>
-            <span className="text-primary"> Easily</span>
+            Gestiona las <span className="text-primary">Interacciones</span>
+            de tu Chatbot de manera{" "}
+            <span className="text-primary">Sencilla</span>
           </h1>
           <p className="text-lg md:text-xl text-muted-foreground mb-12 max-w-2xl mx-auto">
-            ChatBox is a powerful tool for managing your chatbot&apos;s
-            interactions. With ChatBox, you can easily manage your
-            chatbot&apos;s interactions, including sending and receiving
-            messages.
+            ChatBox es una herramienta poderosa para gestionar las interacciones
+            de tu chatbot. Con ChatBox, puedes gestionar fácilmente las
+            interacciones de tu chatbot, incluyendo el envío y recepción de
+            mensajes.
           </p>
           <div className="flex justify-center space-x-4">
             <Link
@@ -53,24 +53,24 @@ const HomePage = () => {
                 variant: "default",
               })} flex items-center space-x-2`}
             >
-              <span>Get Started</span>
+              <span>Comenzar</span>
               <ArrowRight className="h-5 w-5" />
             </Link>
           </div>
         </div>
 
-        {/* Features Grid */}
+        {/* Cuadrícula de Características */}
         <div className="grid md:grid-cols-3 gap-8 mt-20">
           <Card className="backdrop-blur-lg">
             <CardHeader>
               <div className="bg-primary p-3 rounded-lg w-fit">
                 <Users className="h-6 w-6 text-primary-foreground" />
               </div>
-              <CardTitle className="text-xl">Users Management</CardTitle>
+              <CardTitle className="text-xl">Gestión de Usuarios</CardTitle>
             </CardHeader>
             <CardContent>
               <p className="text-muted-foreground">
-                Manage user profiles, roles, and permissions.
+                Administra perfiles de usuarios, roles y permisos.
               </p>
             </CardContent>
           </Card>
@@ -80,11 +80,12 @@ const HomePage = () => {
               <div className="bg-primary p-3 rounded-lg w-fit">
                 <BarChart3 className="h-6 w-6 text-primary-foreground" />
               </div>
-              <CardTitle className="text-xl">Analytics</CardTitle>
+              <CardTitle className="text-xl">Analíticas</CardTitle>
             </CardHeader>
             <CardContent>
               <p className="text-muted-foreground">
-                Gain insights into user behavior, engagement, and performance.
+                Obtén información sobre el comportamiento, compromiso y
+                rendimiento de los usuarios.
               </p>
             </CardContent>
           </Card>
@@ -94,11 +95,12 @@ const HomePage = () => {
               <div className="bg-primary p-3 rounded-lg w-fit">
                 <Shield className="h-6 w-6 text-primary-foreground" />
               </div>
-              <CardTitle className="text-xl">Total Security</CardTitle>
+              <CardTitle className="text-xl">Seguridad Total</CardTitle>
             </CardHeader>
             <CardContent>
               <p className="text-muted-foreground">
-                Implement robust security measures to protect your data.
+                Implementa medidas de seguridad robustas para proteger tus
+                datos.
               </p>
             </CardContent>
           </Card>

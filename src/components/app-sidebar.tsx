@@ -75,8 +75,10 @@ export function AppSidebar({
           const response = await client.getBot({ id: currentBotId });
           setBotInfo(response.bot);
         } catch (error) {
-          toast.error("Error getting bot info");
-          console.error("Error al obtener la información del bot:", error);
+          toast.error(
+            "Error al obtener la información del bot, por favor verifique sus credenciales e intente de nuevo"
+          );
+          console.error("Error getting bot info:", error);
         }
       };
       getBotInfo();

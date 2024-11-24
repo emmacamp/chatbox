@@ -50,14 +50,15 @@ export const LoginForm = () => {
       });
 
       if (result.success) {
-        // toast.success("Bienvenido!");
         router.push(AUTH_ROUTES.MANAGEMENT.ROOT);
       } else {
         throw new Error("Failed to store credentials");
       }
     } catch (error) {
       console.error(error);
-      toast.error("Something went wrong, please try again.");
+      toast.error(
+        "Error al iniciar sesión, por favor verifique sus credenciales e intente de nuevo"
+      );
     }
   };
 

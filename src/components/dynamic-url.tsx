@@ -18,7 +18,6 @@ export const DynamicUrl = () => {
 
   const userName = searchParams.get("userName");
   const integration = searchParams.get("integration");
-  console.log(userName, integration);
 
   return (
     <Breadcrumb>
@@ -30,20 +29,20 @@ export const DynamicUrl = () => {
         </BreadcrumbItem>
         <BreadcrumbSeparator className="hidden md:block" />
         <BreadcrumbItem className="hidden md:block text-muted-foreground">
-          <BreadcrumbPage className="text-inherit">
+          <BreadcrumbPage className="text-inherit capitalize">
             {location || "Dashboard"}
           </BreadcrumbPage>
         </BreadcrumbItem>
-        {userName || integration ? (
-          <>
-            <BreadcrumbSeparator className="hidden md:block" />
-            <BreadcrumbItem>
-              <BreadcrumbPage>
-                {userName || integration || "Conversación"}{" "}
-              </BreadcrumbPage>
-            </BreadcrumbItem>
-          </>
-        ) : null}
+        {/* {userName || integration ? ( */}
+        <>
+          <BreadcrumbSeparator className="hidden md:block" />
+          <BreadcrumbItem>
+            <BreadcrumbPage>
+              {userName || integration || "Conversación"}{" "}
+            </BreadcrumbPage>
+          </BreadcrumbItem>
+        </>
+        {/* ) : null} */}
       </BreadcrumbList>
     </Breadcrumb>
   );

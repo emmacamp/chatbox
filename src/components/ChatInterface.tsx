@@ -25,20 +25,6 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const messagesContainerRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const hideURLBar = () => {
-      setTimeout(() => {
-        window.scrollTo(0, 1);
-      }, 0);
-    };
-
-    window.addEventListener("load", hideURLBar);
-
-    // Limpieza para evitar fugas de memoria
-    return () => {
-      window.removeEventListener("load", hideURLBar);
-    };
-  }, []);
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
     setShowScrollToBottom(false);

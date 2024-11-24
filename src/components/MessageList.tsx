@@ -31,11 +31,6 @@ const MessageList: React.FC<MessageListProps> = ({
   >(undefined);
 
   useEffect(() => {
-    scrollToBottom();
-  }, [messages]);
-
-  useEffect(() => {
-    console.log("Fetching messages");
     const fetchMessages = async () => {
       try {
         const client = new Client({
@@ -50,15 +45,18 @@ const MessageList: React.FC<MessageListProps> = ({
         setNextMessagesToken(response.meta.nextToken || undefined);
 
         if (!response.messages) {
-          return toast.error("No messages found");
+          return toast.error("No se encontraron mensajes");
         }
 
         setMessages(response.messages);
         scrollToBottom();
       } catch (error: any) {
         console.error("Error fetching messages:", error);
+
         if (error?.code == 429) {
-          return toast.error("Rate limit exceeded. Please try again later.");
+          return toast.error(
+            "Limite de peticiones a la API alcanzado, intente de nuevo mas tarde."
+          );
         }
       }
     };
@@ -92,7 +90,7 @@ const MessageList: React.FC<MessageListProps> = ({
 
     try {
       if (!nextMessagesToken || !credentials) {
-        return toast.error("No more messages to load");
+        return toast.error("No hay mensajes anteriores");
       }
 
       const getMessages = await client.listMessages({
@@ -104,9 +102,9 @@ const MessageList: React.FC<MessageListProps> = ({
 
       setNextMessagesToken(getMessages.meta.nextToken || undefined);
     } catch (error) {
-      console.log(JSON.stringify(error));
+      console.error(JSON.stringify(error));
 
-      toast.error("Couldn't load older messages");
+      toast.error("No se pudo cargar los mensajes anteriores");
     }
   }
 

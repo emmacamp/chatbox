@@ -28,6 +28,7 @@ import Link from "next/link";
 import { Label } from "@radix-ui/react-label";
 import { LogoutButton } from "./logout-btn";
 import { BotNameSidebar } from "./bot-name-sidebar";
+import { SidebarMenuSkeleton } from "./skeletons";
 
 interface AppSidebarProps {
   credentials: CredentialsClientBP;
@@ -40,6 +41,7 @@ export function AppSidebar({
   ...props
 }: React.ComponentProps<typeof Sidebar> & AppSidebarProps) {
   const [conversations, setConversations] = useState<ConversationBP[]>([]);
+  const [isConversationsLoading, setIsConversationsLoading] = useState(false);
   const [conversationData, setConversationData] = useState<
     {
       conversationId: string;
@@ -58,12 +60,17 @@ export function AppSidebar({
       botId: credentials.botId,
     });
 
+    setIsConversationsLoading(true);
+
     listConversationsWithMessages(client, undefined, true)
       .then((response) => {
         setConversations(response.conversations);
       })
       .catch((error) => {
         toast.error(error.message);
+      })
+      .finally(() => {
+        setIsConversationsLoading(false);
       });
   }, [credentials]);
 
@@ -183,70 +190,77 @@ export function AppSidebar({
         </SidebarGroup>
       </SidebarHeader>
       <SidebarContent className="gap-0">
-        {Object.entries(conversationsByIntegration).map(
-          ([integration, convs]) => (
-            <Collapsible
-              key={integration}
-              title={integration}
-              defaultOpen
-              className="group/collapsible"
-            >
-              <SidebarGroup>
-                <SidebarGroupLabel
-                  asChild
-                  className="group/label text-sm text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
-                >
-                  <CollapsibleTrigger>
-                    {integration.toUpperCase()}{" "}
-                    <ChevronRight className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-90" />
-                  </CollapsibleTrigger>
-                </SidebarGroupLabel>
-                <CollapsibleContent>
-                  <SidebarGroupContent>
-                    <SidebarMenu>
-                      {convs.map((conversation) => (
-                        <SidebarMenuItem key={conversation.conversationId}>
-                          <SidebarMenuButton asChild className="p-2">
-                            <Link
-                              className={`${
-                                integration === "whatsapp" &&
-                                conversation.userPhone
-                                  ? "!py-0 !h-11"
-                                  : ""
-                              } `}
-                              href={`/management/chat/${
-                                conversation.conversationId
-                              }?integration=${integration}${
-                                conversation.userName
-                                  ? `&userName=${conversation.userName}`
-                                  : ""
-                              }`}
-                            >
-                              <div>
-                                {conversation.userName && (
-                                  <div className="font-bold">
-                                    {conversation.userName}
-                                  </div>
-                                )}
-                                {conversation.userPhone && (
-                                  <div>{conversation.userPhone}</div>
-                                )}
-                                {!conversation.userName &&
-                                  !conversation.userPhone && (
+        {isConversationsLoading ? (
+          <SidebarMenuSkeleton />
+        ) : (
+          Object.entries(conversationsByIntegration).map(
+            ([integration, convs]) => (
+              <Collapsible
+                key={integration}
+                title={integration}
+                defaultOpen
+                className="group/collapsible"
+              >
+                <SidebarGroup>
+                  <SidebarGroupLabel
+                    asChild
+                    className="group/label text-sm text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+                  >
+                    <CollapsibleTrigger>
+                      {integration.toUpperCase()}{" "}
+                      <ChevronRight className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-90" />
+                    </CollapsibleTrigger>
+                  </SidebarGroupLabel>
+                  <CollapsibleContent>
+                    <SidebarGroupContent>
+                      <SidebarMenu>
+                        {convs.map((conversation) => (
+                          <SidebarMenuItem key={conversation.conversationId}>
+                            <SidebarMenuButton asChild className="p-2">
+                              <Link
+                                className={`${
+                                  integration === "whatsapp" &&
+                                  conversation.userPhone
+                                    ? "!py-0 !h-11"
+                                    : ""
+                                } `}
+                                href={`/management/chat/${
+                                  conversation.conversationId
+                                }?integration=${integration}${
+                                  conversation.userName
+                                    ? `&userName=${conversation.userName}`
+                                    : ""
+                                }`}
+                              >
+                                <div>
+                                  {conversation.userName && (
                                     <div className="font-bold">
-                                      {conversation.conversationId.slice(0, 13)}
+                                      {conversation.userName}
                                     </div>
                                   )}
-                              </div>
-                            </Link>
-                          </SidebarMenuButton>
-                        </SidebarMenuItem>
-                      ))}
-                    </SidebarMenu>
-                  </SidebarGroupContent>
-                </CollapsibleContent>
-              </SidebarGroup>
-            </Collapsible>
+                                  {conversation.userPhone && (
+                                    <div>{conversation.userPhone}</div>
+                                  )}
+                                  {!conversation.userName &&
+                                    !conversation.userPhone && (
+                                      <div className="font-bold">
+                                        {conversation.conversationId.slice(
+                                          0,
+                                          13
+                                        )}
+                                      </div>
+                                    )}
+                                </div>
+                              </Link>
+                            </SidebarMenuButton>
+                          </SidebarMenuItem>
+                        ))}
+                      </SidebarMenu>
+                    </SidebarGroupContent>
+                  </CollapsibleContent>
+                </SidebarGroup>
+              </Collapsible>
+            )
           )
         )}
       </SidebarContent>

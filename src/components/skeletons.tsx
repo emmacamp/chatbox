@@ -270,3 +270,20 @@ export const ChatLoadingSkeleton = () => {
     </div>
   );
 };
+
+export const SidebarMenuSkeleton = () => {
+  return (
+    <div className="flex flex-col space-y-2 p-4">
+      <div className="h-9 w-full rounded-md bg-gray-200 animate-pulse"></div>
+      <div className="h-9 w-full rounded-md bg-gray-200 animate-pulse"></div>
+      <div className="h-9 w-full rounded-md bg-gray-200 animate-pulse"></div>
+      <div className="h-9 w-full rounded-md bg-gray-200 animate-pulse"></div>
+      <div className="h-9 w-full rounded-md bg-gray-200 animate-pulse"></div>
+      <div className="h-9 w-full rounded-md bg-gray-200 animate-pulse"></div>
+      <div className="h-9 w-full rounded-md bg-gray-200 animate-pulse"></div>
+      <div className="h-9 w-full rounded-md bg-gray-200 animate-pulse"></div>
+      <div className="h-9 w-full rounded-md bg-gray-200 animate-pulse"></div>
+      <div className="h-9 w-full rounded-md bg-gray-200 animate-pulse"></div>
+    </div>
+  );
+};

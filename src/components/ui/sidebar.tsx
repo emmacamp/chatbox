@@ -660,7 +660,10 @@ const SidebarMenuSkeleton = React.forwardRef<
     <div
       ref={ref}
       data-sidebar="menu-skeleton"
-      className={cn("rounded-md h-8 flex gap-2 px-2 items-center", className)}
+      className={cn(
+        "rounded-md h-8 flex flex-col gap-2 px-2 items-center",
+        className
+      )}
       {...props}
     >
       {showIcon && (
@@ -669,6 +672,42 @@ const SidebarMenuSkeleton = React.forwardRef<
           data-sidebar="menu-skeleton-icon"
         />
       )}
+      <Skeleton
+        className="h-4 flex-1 max-w-[--skeleton-width]"
+        data-sidebar="menu-skeleton-text"
+        style={
+          {
+            "--skeleton-width": width,
+          } as React.CSSProperties
+        }
+      />
+      <Skeleton
+        className="h-4 flex-1 max-w-[--skeleton-width]"
+        data-sidebar="menu-skeleton-text"
+        style={
+          {
+            "--skeleton-width": width,
+          } as React.CSSProperties
+        }
+      />
+      <Skeleton
+        className="h-4 flex-1 max-w-[--skeleton-width]"
+        data-sidebar="menu-skeleton-text"
+        style={
+          {
+            "--skeleton-width": width,
+          } as React.CSSProperties
+        }
+      />
+      <Skeleton
+        className="h-4 flex-1 max-w-[--skeleton-width]"
+        data-sidebar="menu-skeleton-text"
+        style={
+          {
+            "--skeleton-width": width,
+          } as React.CSSProperties
+        }
+      />
       <Skeleton
         className="h-4 flex-1 max-w-[--skeleton-width]"
         data-sidebar="menu-skeleton-text"

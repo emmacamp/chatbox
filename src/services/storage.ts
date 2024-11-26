@@ -42,7 +42,7 @@ export async function decrypt(input: string): Promise<any> {
 }
 
 // Función auxiliar para obtener una cookie
-const getCookie = async (name: string): Promise<string | undefined> => {
+export const getCookie = async (name: string): Promise<string | undefined> => {
   const cookieStore = await cookies();
   const cookie = cookieStore.get(name);
   return cookie?.value;

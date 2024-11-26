@@ -67,7 +67,7 @@ export async function listMessagesByConversationId(
   };
 }
 
-export async function getBotInfo(client: Client, botId: string) {
+export async function getBotInfoClient(client: Client, botId: string) {
   const botInfo = await client.getBot({
     id: botId,
   });

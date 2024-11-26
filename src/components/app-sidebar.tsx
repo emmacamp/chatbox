@@ -20,34 +20,25 @@ import {
   SidebarMenuItem,
   SidebarRail,
 } from "@/components/ui/sidebar";
-import { CredentialsClientBP, UserBP } from "@/types/botpress";
+import { ConversationBP, CredentialsClientBP, UserBP } from "@/types/botpress";
 import { Client } from "@botpress/client";
 import { listConversationsWithMessages } from "@/services";
 import { toast } from "sonner";
 import Link from "next/link";
-import wsp from "@/components/whatsapp.svg";
-import Image from "next/image";
 import { Label } from "@radix-ui/react-label";
 import { LogoutButton } from "./logout-btn";
 import { BotNameSidebar } from "./bot-name-sidebar";
 
-export interface ConversationBP {
-  id: string;
-  createdAt: string;
-  updatedAt: string;
-  channel: string;
-  integration: string;
-  tags: {
-    [key: string]: string;
-  };
+interface AppSidebarProps {
+  credentials: CredentialsClientBP;
+  botName: string | undefined;
 }
 
 export function AppSidebar({
   credentials,
+  botName,
   ...props
-}: React.ComponentProps<typeof Sidebar> & {
-  credentials: CredentialsClientBP;
-}) {
+}: React.ComponentProps<typeof Sidebar> & AppSidebarProps) {
   const [conversations, setConversations] = useState<ConversationBP[]>([]);
   const [conversationData, setConversationData] = useState<
     {
@@ -57,33 +48,8 @@ export function AppSidebar({
       userPhone?: string;
     }[]
   >([]);
-  const [botInfo, setBotInfo] = useState<{ name: string; id: string } | null>(
-    null
-  );
-  const [searchQuery, setSearchQuery] = useState<string>("");
 
-  useEffect(() => {
-    if (credentials) {
-      const currentBotId = credentials.botId;
-      const getBotInfo = async () => {
-        try {
-          const client = new Client({
-            token: credentials.token,
-            workspaceId: credentials.workspaceId,
-            botId: credentials.botId,
-          });
-          const response = await client.getBot({ id: currentBotId });
-          setBotInfo(response.bot);
-        } catch (error) {
-          toast.error(
-            "Error al obtener la información del bot, por favor verifique sus credenciales e intente de nuevo"
-          );
-          console.error("Error getting bot info:", error);
-        }
-      };
-      getBotInfo();
-    }
-  }, [credentials]);
+  const [searchQuery, setSearchQuery] = useState<string>("");
 
   useEffect(() => {
     const client = new Client({
@@ -196,10 +162,12 @@ export function AppSidebar({
     return acc;
   }, {});
 
+  console.log({ botName });
+
   return (
     <Sidebar {...props}>
       <SidebarHeader className="p-2">
-        <BotNameSidebar botName={botInfo?.name} />
+        <BotNameSidebar botName={botName} />
         <SidebarGroup className="">
           <SidebarGroupContent className="relative w-full">
             <Label htmlFor="search" className="sr-only">

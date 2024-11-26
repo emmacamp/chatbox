@@ -19,6 +19,7 @@ export const DynamicUrl = () => {
   const userName = searchParams.get("userName");
   const integration = searchParams.get("integration");
 
+  console.log({ userName, integration });
   return (
     <Breadcrumb>
       <BreadcrumbList>
@@ -33,12 +34,11 @@ export const DynamicUrl = () => {
             {location || "Dashboard"}
           </BreadcrumbPage>
         </BreadcrumbItem>
-        {/* {userName || integration ? ( */}
         <>
           <BreadcrumbSeparator className="hidden md:block" />
           <BreadcrumbItem>
             <BreadcrumbPage>
-              {userName || integration || "Conversación"}{" "}
+              {userName || integration || "Analíticas"}{" "}
             </BreadcrumbPage>
           </BreadcrumbItem>
         </>

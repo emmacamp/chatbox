@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { Message } from "@botpress/client";
 import MessageInput from "./MessageInput";
 import MessageList from "./MessageList";

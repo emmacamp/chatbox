@@ -162,8 +162,6 @@ export function AppSidebar({
     return acc;
   }, {});
 
-  console.log({ botName });
-
   return (
     <Sidebar {...props}>
       <SidebarHeader className="p-2">

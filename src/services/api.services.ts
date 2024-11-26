@@ -2,7 +2,7 @@ import axiosInstance from "@/axiosInstance";
 import { getSession } from "./storage";
 // import { CredentialsClientBP } from "@/types/botpress";
 import type { Bot } from "@botpress/client";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { CredentialsClientBP } from "@/types/botpress";
 import { ENDPOINTS } from "./endpoints";
 
@@ -49,11 +49,12 @@ export async function getBotAnalytics({
       message: "Datos obtenidos correctamente",
     };
   } catch (error) {
-    console.error(error);
+    const errorAxios = error as AxiosError;
+    console.error(errorAxios);
     return {
       analytics: null,
       success: false,
-      message: error?.message || "Error al obtener los datos",
+      message: errorAxios?.message || "Error al obtener los datos",
     };
   }
 }
